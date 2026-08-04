@@ -478,20 +478,6 @@
     box-shadow:none;
   }
   .price-card.basic .btn:hover, .price-card.premium .btn:hover{background:rgba(227,205,143,0.14);}
-  .badge{
-    position:absolute; top:-15px; left:50%; transform:translateX(-50%);
-    background:linear-gradient(120deg, var(--gold-soft), var(--gold));
-    color:var(--deep);
-    font-size:0.68rem; letter-spacing:1.5px; text-transform:uppercase;
-    padding:7px 18px; border-radius:20px; font-weight:600;
-    box-shadow:0 8px 18px rgba(201,169,97,0.45);
-    z-index:3;
-    animation:badge-pulse 2.6s ease-in-out infinite;
-  }
-  @keyframes badge-pulse{
-    0%,100%{box-shadow:0 8px 18px rgba(201,169,97,0.45);}
-    50%{box-shadow:0 8px 22px rgba(201,169,97,0.7);}
-  }
 
   /* ---------- TESTIMONIALS ---------- */
   .testimonials{
@@ -530,9 +516,10 @@
   .testi-arrow:hover{background:rgba(227,205,143,0.16); transform:translateY(-2px);}
   .testi-arrow:disabled{opacity:0.35; cursor:default; transform:none;}
 
-  .testi-viewport{overflow:hidden; flex:1;}
+  .testi-viewport{overflow:hidden; flex:1; padding-top:28px;}
   .testi-track{
     display:flex;
+    align-items:stretch;
     gap:26px;
     transition:transform .5s cubic-bezier(.2,.8,.2,1);
   }
@@ -848,16 +835,26 @@
     .nav-links .nav-book-btn{margin-top:14px; padding:15px 42px; font-size:0.88rem;}
     .burger{display:flex;}
     .hero{
-      padding:128px 0 72px;
+      min-height:100vh;
+      min-height:100svh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:132px 0 56px;
       background-image:
         linear-gradient(180deg, rgba(15,8,28,0.32) 0%, rgba(15,8,28,0.5) 45%, rgba(15,8,28,0.88) 100%),
         radial-gradient(ellipse at center 30%, rgba(52,33,92,0) 0%, rgba(26,16,48,0.35) 100%),
         url('hero.png');
       background-size:cover, cover, cover;
-      background-position:center, center 30%, center 22%;
+      background-position:center, center 30%, left 22%;
       background-repeat:no-repeat, no-repeat, no-repeat;
       background-color:var(--deep-2);
     }
+    .hero-inner{width:100%;}
+    .hero .eyebrow{font-size:0.9rem;}
+    .hero h1{font-size:1.75rem; margin-bottom:16px;}
+    .hero .divider{margin-bottom:20px;}
+    .hero p{font-size:0.88rem; line-height:1.75; margin-bottom:28px;}
     .container{padding:0 20px;}
     nav.navbar{padding:16px 20px;}
     .pricing{
@@ -867,9 +864,9 @@
     }
     .faq-section{padding:70px 0 80px;}
     .cta-band{
-      padding:76px 0;
+      padding:0px 0;
       background-size:cover, cover;
-      background-position:center, center top;
+      background-position:left;
       background-color:var(--deep);
     }
     .orb-wrap{margin:0 auto;}
@@ -884,6 +881,8 @@
     .price-card{padding:32px 20px 26px;}
     .price-card.standard{padding:40px 22px 30px;}
     .divider{width:90px;}
+    .hero h1{font-size:1.55rem;}
+    .hero p{font-size:0.84rem;}
   }
 
   :focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
@@ -993,7 +992,6 @@
 
     <div class="price-card standard reveal">
       <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-      <span class="badge">Most Popular</span>
       <p class="plan-name">Spells</p>
       <p class="plan-price"><sup>₹</sup>899</p>
       <div class="divider"><span>✦</span></div>
