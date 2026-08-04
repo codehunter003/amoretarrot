@@ -256,10 +256,12 @@
   .who-grid{
     display:grid;
     grid-template-columns:0.85fr 1fr;
-    gap:60px;
+    column-gap:60px;
+    row-gap:0;
     align-items:center;
   }
-  .who-visual{display:flex; justify-content:center;}
+  .who-visual{grid-column:1; display:flex; justify-content:center;}
+  .who-visual-img{display:none;} /* only shown in the mobile layout, see 860px breakpoint */
   .orb-wrap{
     position:relative;
     width:min(300px, 78vw);
@@ -278,13 +280,18 @@
     display:flex; align-items:center; gap:12px;
   }
   .eyebrow-dark::before, .eyebrow-dark::after{content:'✦'; font-size:0.6rem; color:var(--mid-2);}
-  .who-content h2{
+  .who-heading{grid-column:2;}
+  .who-heading h2{
     font-family:var(--serif); font-size:clamp(1.9rem, 3.4vw, 2.5rem);
     color:var(--ink); margin-bottom:18px;
   }
-  .who-content > p{
+  .who-text{
+    grid-column:2;
     font-size:0.94rem; line-height:1.9; color:var(--ink-soft); max-width:480px;
   }
+  /* Decorative divider used only between the paragraph and the feature cards
+     on mobile (see the 860px breakpoint) — stays hidden on desktop/tablet. */
+  .who-divider{display:none;}
 
   .who-features{
     display:flex;
@@ -671,23 +678,29 @@
   }
   .expect-block p:first-of-type{font-style:italic; color:var(--mid-2);}
 
-  /* ---------- CTA band & Embedded Footer Details ---------- */
+  /* ---------- CONTACT / FOOTER ---------- */
   .cta-band{
     background:
       radial-gradient(ellipse at center, rgba(26,16,48,0.25) 0%, rgba(26,16,48,0.95) 100%),
       url('contact.png') center center/cover no-repeat;
-    padding:15px 0 0px; /* Reduced bottom padding slightly to accommodate socials */
+    padding:76px 0 46px; /* balanced padding now that the CTA button is gone */
     text-align:center;
     color:var(--light);
   }
+  .contact-inner{max-width:520px; margin:0 auto;}
   .cta-band h2{
     font-family:var(--serif);
     font-size:clamp(1.9rem, 3.6vw, 2.5rem);
     margin-bottom:18px;
   }
   .cta-band p{
-    max-width:480px; margin:0 auto 32px;
+    max-width:480px; margin:0 auto 30px;
     color:#d9cdec; font-size:0.92rem; line-height:1.85;
+  }
+  .contact-divider{
+    width:70px; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(227,205,143,0.5), transparent);
+    margin:28px auto 18px;
   }
   
   /* ---------- Booking Modal ---------- */
@@ -752,21 +765,21 @@
     min-height: 90px;
   }
 
-  /* Social Icons and Copyright moved here */
+  /* Social Icons and Copyright */
   .social-icons{
-    display:flex; gap:16px; justify-content:center; margin-top:24px;
+    display:flex; gap:18px; justify-content:center; margin-top:6px;
   }
   .social-icons a{
-    width:38px; height:38px; border-radius:50%;
+    width:44px; height:44px; border-radius:50%;
     border:1px solid rgba(227,205,143,0.4);
     display:flex; align-items:center; justify-content:center;
-    font-size:0.85rem;
+    font-size:0.95rem;
     color: var(--light);
     transition:background .25s, transform .25s, border-color .25s;
   }
   .social-icons a:hover{background:rgba(201,169,97,0.2); transform:translateY(-4px) rotate(-6deg); border-color:var(--gold);}
   .copyright{
-    text-align:center; padding-top:20px;
+    text-align:center; padding-top:6px;
     font-size:0.78rem; color:#a698c2;
   }
 
@@ -785,7 +798,7 @@
     .cards-grid{gap:22px;}
     .price-card{padding:32px 20px 26px;}
     .price-card.standard{padding:38px 24px 30px;}
-    .who-grid{gap:36px;}
+    .who-grid{column-gap:36px;}
     .testi-card{flex:0 0 calc((100% - 26px)/2);}
   }
 
@@ -801,21 +814,6 @@
     .faq-grid{grid-template-columns:1fr; gap:8px;}
     .faq-grid::before{display:none;}
     .expect-block{margin-top:36px; padding-top:36px; border-top:1px solid rgba(107,76,147,0.25);}
-  }
-
-  /* Who We Are: keep the exact desktop/tablet composition below 900px, just scaled
-     down as a whole (image + text + feature row together) via JS-driven transform. */
-  @media (max-width: 900px){
-    .who-we-are{
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      background:var(--lavender);
-    }
-    .who-scale{
-      width:900px;
-      flex:0 0 900px;
-    }
   }
 
   @media (max-width: 860px){
@@ -858,19 +856,81 @@
     .container{padding:0 20px;}
     nav.navbar{padding:16px 20px;}
     .pricing{
-      padding:60px 0 90px;
+      padding:15px 0 90px;
       background-size:cover, cover;
-      background-position:center top, center top;
+      background-position:center top, left;
     }
-    .faq-section{padding:70px 0 80px;}
+    .faq-section{padding:15px 0 15px;}
     .cta-band{
-      padding:0px 0;
+      padding:15px 0 15px;
       background-size:cover, cover;
       background-position:left;
       background-color:var(--deep);
     }
     .orb-wrap{margin:0 auto;}
-    .testimonials{padding:64px 0 70px;}
+
+    /* ---------- WHO WE ARE (mobile layout) ---------- */
+    .who-we-are{
+      /* Fallback flat colour behind everything. Do NOT put the globe artwork
+         here as a background — this box wraps the heading, text and feature
+         cards too, so it's much taller than the artwork and will end up
+         either zoomed/cropped (cover) or tiled (repeat). The globe image
+         goes on .who-visual-img below instead. */
+      background:var(--lavender);
+    }
+    .who-scale{
+      /* The desktop composited artwork (who we are.png) is dropped on mobile
+         since the globe now gets its own dedicated space below. */
+      background:none;
+      padding:15px 0 48px;
+    }
+    .who-grid{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:0;
+    }
+    .who-heading{order:1; margin-bottom:26px;}
+    .who-visual{
+      order:2;
+      width:100%;
+      max-width:320px;
+      margin:0 auto 26px;
+    }
+    .who-visual-img{
+      display:block;
+      width:100%;
+      height:auto; /* keeps the image's own proportions — no crop, no zoom, never tiles */
+    }
+    .who-text{
+      order:3;
+      max-width:420px;
+      margin:0 auto;
+    }
+    .who-divider{
+      order:4;
+      display:block;
+      width:100%;
+      margin:32px auto;
+    }
+    .who-features{
+      order:5;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      border-top:none;
+      margin-top:0;
+      padding-top:0;
+    }
+    .who-feature{
+      background:rgba(255,255,255,0.4);
+      border:1px solid rgba(74,48,112,0.18);
+      border-radius:16px;
+      padding:28px 14px;
+    }
+    .who-feature:not(:last-child)::after{content:none;}
+    .testimonials{padding:15px 0 15px;}
     .testi-card{flex:0 0 100%; padding:34px 22px 24px;}
     .testi-carousel{margin-top:36px;}
   }
@@ -929,14 +989,21 @@
 <section class="who-we-are" id="who-we-are">
   <div class="who-scale" id="whoScale">
     <div class="container who-grid">
+      <!-- Hidden on desktop/tablet (that view still uses the composited
+           who-we-are.png section background). Shown on mobile at ≤860px.
+           Just point src at your local image file — no CSS sizing needed,
+           the browser will fit it naturally without cropping or tiling. -->
       <div class="who-visual reveal">
+        <img src="mobile2.png" alt="Crystal ball with moon and stars, surrounded by crystals and a candle" class="who-visual-img">
       </div>
 
-      <div class="who-content reveal">
-        <p class="eyebrow-dark">About Us</p>
+      <div class="who-heading reveal">
         <h2>Who We Are</h2>
-        <p>We are a team of passionate tarot readers and spiritual advisors dedicated to helping you find clarity, balance, and purpose in life. With years of experience and a deep connection to intuitive practices, we offer personalized readings that inspire confidence and guide you towards a brighter future.</p>
       </div>
+
+      <p class="who-text reveal">We are a team of passionate tarot readers and spiritual advisors dedicated to helping you find clarity, balance, and purpose in life. With years of experience and a deep connection to intuitive practices, we offer personalized readings that inspire confidence and guide you towards a brighter future.</p>
+
+      <div class="divider who-divider reveal"><span>✦</span></div>
 
       <div class="who-features reveal" style="grid-column:1/-1;">
         <div class="who-feature">
@@ -1084,7 +1151,6 @@
 <section class="faq-section">
   <div class="container faq-grid">
     <div class="reveal">
-      <p class="faq-eyebrow">FAQ</p>
       <h2>Frequently Asked</h2>
 
       <div class="faq-item open">
@@ -1110,22 +1176,20 @@
   </div>
 </section>
 
-<!-- ===================== CTA BAND & FOOTER ===================== -->
+<!-- ===================== CONTACT / FOOTER ===================== -->
 <section class="cta-band" id="contact">
-  <div class="container reveal" style="position:relative; z-index:2;">
-    <p class="eyebrow">Get Started</p>
-    <h2>Book an appointment</h2>
-    <p>Take the first step toward clarity. Choose a service, pick a time that works for you, and let's explore what the cards have to say.</p>
+  <div class="container contact-inner reveal" style="position:relative; z-index:2;">
+    <h2>Contact Us</h2>
+    <p>Have a question or ready to begin your journey? Reach out anytime through any of the channels below.</p>
 
-    <button type="button" class="btn" data-open-modal data-plan="">Get Started</button>
-
-    <!-- Socials and Copyright migrated here -->
     <div class="social-icons">
       <a href="#" aria-label="Instagram">◎</a>
       <a href="#" aria-label="Twitter">𝕏</a>
       <a href="#" aria-label="Facebook">f</a>
       <a href="#" aria-label="YouTube">▶</a>
     </div>
+
+    <div class="contact-divider"></div>
     <p class="copyright">© 2026 Divin Astrologist. All rights reserved.</p>
   </div>
 </section>
@@ -1357,38 +1421,6 @@
     renderDots();
     update();
     startAutoplay();
-  })();
-
-  // ===================== Who We Are: scale the whole section as one unit below 900px =====================
-  // Keeps the exact same two-column composition (image + text + feature row) used on
-  // desktop/tablet instead of reflowing it — it's just rendered smaller as a unit.
-  (function(){
-    const whoSection = document.getElementById('who-we-are');
-    const whoScale = document.getElementById('whoScale');
-    if(!whoSection || !whoScale) return;
-    const REFERENCE_WIDTH = 900;
-
-    function applyScale(){
-      if(window.innerWidth <= REFERENCE_WIDTH){
-        const naturalHeight = whoScale.offsetHeight;
-        const factor = window.innerWidth / REFERENCE_WIDTH;
-        whoScale.style.transform = `scale(${factor})`;
-        whoSection.style.height = (naturalHeight * factor) + 'px';
-      } else {
-        whoScale.style.transform = '';
-        whoSection.style.height = '';
-      }
-    }
-
-    let whoResizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(whoResizeTimer);
-      whoResizeTimer = setTimeout(applyScale, 120);
-    });
-    if(document.fonts && document.fonts.ready){
-      document.fonts.ready.then(applyScale);
-    }
-    applyScale();
   })();
 
   // Scroll reveal
