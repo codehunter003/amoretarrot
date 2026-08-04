@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divin Astrologist — Guidance. Clarity. Confidence.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep: #1a1030;
+    --deep-2: #2a1b46;
+    --indigo-3: #34215c;
+    --mauve: #8d76a6;
+    --mauve-light: #cbb9d6;
+    --mid: #4a3070;
+    --mid-2: #6b4c93;
+    --lavender: #ece1f5;
+    --lavender-2: #ddc9ef;
+    --soft-purple: #d4c3dd;
+    --soft-purple-2: #c3aed4;
+    --cream: #f8f2e8;
+    --card-cream: #f8eef3;
+    --gold: #c9a961;
+    --gold-soft: #e3cd8f;
+    --gold-warm: #d8b488;
+    --ink: #2a1b46;
+    --ink-soft: #5b4a78;
+    --light: #f4eefc;
+    --card-dark: #241636;
+    --card-dark-2: #3c2a5e;
+    --card-premium-1: #8f77ae;
+    --card-premium-2: #74588f;
+    --shadow: 0 20px 50px rgba(20,10,40,0.35);
+    --shadow-card: 0 30px 60px -15px rgba(20,8,45,0.45), 0 10px 25px rgba(20,8,45,0.25);
+    --serif: 'Playfair Display', 'Cormorant Garamond', serif;
+    --body: 'Poppins', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:var(--cream);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  img,svg{display:block;}
+
+  .container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:absolute; top:0; left:0; right:0; z-index:100;
+    background:transparent; /* Made transparent and clean */
+    border-bottom:none;
+  }
+  nav.navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    max-width:1200px;
+    margin:0 auto;
+  }
+  .brand{
+    font-family:var(--serif);
+    color:var(--light);
+    font-size:1.15rem;
+    letter-spacing:1px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .brand .glyph{color:var(--gold); font-size:1.3rem; transition:transform .4s ease;}
+  .brand:hover .glyph{transform:rotate(90deg);}
+  .nav-links{
+    display:flex; gap:44px;
+  }
+  .nav-links a{
+    color:var(--light);
+    font-size:0.85rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    position:relative;
+    padding-bottom:6px;
+    transition:color .25s;
+  }
+  .nav-links a::after{
+    content:'';
+    position:absolute; left:0; bottom:0;
+    width:0; height:2px;
+    background:var(--gold);
+    transition:width .3s;
+  }
+  .nav-links a:hover, .nav-links a.active{color:var(--gold-soft);}
+  .nav-links a.active::after, .nav-links a:hover::after{width:100%;}
+
+  .nav-book-btn{
+    background:linear-gradient(120deg, var(--gold-soft), var(--gold));
+    color:var(--deep);
+    font-size:0.78rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    font-weight:600;
+    padding:10px 22px;
+    border-radius:30px;
+    box-shadow:0 6px 16px rgba(201,169,97,0.4);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .nav-book-btn:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(201,169,97,0.55);}
+  .nav-book-btn:active{transform:translateY(0);}
+
+  .burger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:none;
+    padding:6px;
+    z-index:110;
+  }
+  .burger span{
+    width:26px;height:2px;background:var(--gold-soft);
+    transition:all .3s;
+    display:block;
+  }
+  .burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.active span:nth-child(2){opacity:0;}
+  .burger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* ---------- section base ---------- */
+  section{position:relative; overflow:hidden;}
+
+  /* ---------- starfield ---------- */
+  .starfield{position:absolute; inset:0; pointer-events:none; z-index:1;}
+  .star{
+    position:absolute;
+    background:var(--gold-soft);
+    border-radius:50%;
+    opacity:0;
+    animation:twinkle 4s ease-in-out infinite;
+    box-shadow:0 0 6px 1px rgba(227,205,143,0.6);
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0; transform:scale(0.6);}
+    50%{opacity:.9; transform:scale(1);}
+  }
+
+  /* ---------- hero / about ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse at center 30%, rgba(52,33,92,0) 0%, rgba(26,16,48,0.35) 100%),
+      url('hero.png') center center/cover no-repeat;
+    padding:140px 0 120px; /* Adjusted top padding to account for absolute header */
+    color:var(--light);
+  }
+  .hero-inner{
+    position:relative; z-index:2;
+  }
+  .hero-center{
+    text-align:center; position:relative; z-index:2;
+    max-width:640px; margin:0 auto;
+  }
+  .eyebrow{
+    font-family:var(--serif);
+    font-style:italic;
+    color:var(--gold-soft);
+    font-size:1.05rem;
+    margin-bottom:12px;
+    display:flex; align-items:center; justify-content:center; gap:12px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:'✦';
+    font-size:0.6rem;
+    color:var(--gold);
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(2rem, 4.2vw, 3.1rem);
+    line-height:1.15;
+    margin-bottom:22px;
+    text-shadow:0 4px 30px rgba(0,0,0,0.35);
+  }
+  .divider{
+    width:120px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin:0 auto 28px;
+    position:relative;
+  }
+  .divider span{
+    position:absolute; left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    color:var(--gold);
+    font-size:0.7rem;
+    padding:0 10px;
+  }
+  .hero p{
+    font-size:0.98rem;
+    line-height:1.85;
+    color:#d9cdec;
+    max-width:480px;
+    margin:0 auto 36px;
+  }
+
+  .btn{
+    display:inline-block;
+    padding:14px 34px;
+    background:var(--mid-2);
+    color:#fff;
+    font-size:0.82rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    border-radius:6px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .3s ease, box-shadow .3s ease;
+    box-shadow:0 8px 24px rgba(107,76,147,0.4);
+    isolation:isolate;
+  }
+  .btn::before{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.35) 45%, transparent 70%);
+    transform:translateX(-120%);
+    transition:transform .6s ease;
+    z-index:-1;
+  }
+  .btn:hover::before{transform:translateX(120%);}
+  .btn:hover{transform:translateY(-3px); box-shadow:0 14px 32px rgba(107,76,147,0.55);}
+  .btn:active{transform:translateY(-1px);}
+  .btn-outline{
+    background:transparent;
+    border:1.5px solid var(--gold-soft);
+    color:var(--gold-soft);
+    box-shadow:none;
+  }
+  .btn-outline:hover{background:rgba(227,205,143,0.12); box-shadow:0 10px 24px rgba(0,0,0,0.2);}
+
+  /* ---------- WHO WE ARE ---------- */
+  .who-we-are{
+    position:relative;
+    overflow:hidden;
+  }
+  /* .who-scale holds the full design (bg image + content) as one unit so it can be
+     scaled down as a whole on small screens instead of reflowing/stacking. */
+  .who-scale{
+    width:100%;
+    background:url('who we are.png') center center/cover no-repeat;
+    padding:90px 0 64px;
+    transform-origin:top center;
+  }
+  .who-grid{
+    display:grid;
+    grid-template-columns:0.85fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .who-visual{display:flex; justify-content:center;}
+  .orb-wrap{
+    position:relative;
+    width:min(300px, 78vw);
+    filter:drop-shadow(0 25px 40px rgba(42,27,70,0.35));
+    animation:orb-float 6s ease-in-out infinite;
+  }
+  @keyframes orb-float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+  .orb-svg{width:100%; height:auto; display:block;}
+
+  .eyebrow-dark{
+    font-family:var(--serif); font-style:italic; color:var(--mid-2);
+    font-size:1.05rem; margin-bottom:10px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow-dark::before, .eyebrow-dark::after{content:'✦'; font-size:0.6rem; color:var(--mid-2);}
+  .who-content h2{
+    font-family:var(--serif); font-size:clamp(1.9rem, 3.4vw, 2.5rem);
+    color:var(--ink); margin-bottom:18px;
+  }
+  .who-content > p{
+    font-size:0.94rem; line-height:1.9; color:var(--ink-soft); max-width:480px;
+  }
+
+  .who-features{
+    display:flex;
+    margin-top:52px;
+    border-top:1px solid rgba(74,48,112,0.2);
+    padding-top:38px;
+  }
+  .who-feature{
+    flex:1; text-align:center; padding:0 16px; position:relative;
+  }
+  .who-feature:not(:last-child)::after{
+    content:''; position:absolute; right:0; top:2px; bottom:2px; width:1px;
+    background:rgba(74,48,112,0.25);
+  }
+  .who-feature svg{
+    width:32px; height:32px; margin:0 auto 14px;
+    stroke:var(--mid-2); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
+  }
+  .who-feature h4{
+    font-family:var(--serif); font-size:0.98rem; color:var(--ink); margin-bottom:6px; font-weight:600;
+  }
+  .who-feature p{
+    font-size:0.78rem; color:var(--ink-soft); line-height:1.6;
+  }
+
+  /* ---------- PRICING ---------- */
+  .pricing{
+    background-image:
+      linear-gradient(180deg,
+        rgba(26,16,48,0.82) 0%,
+        rgba(52,33,92,0.55) 20%,
+        rgba(141,118,166,0.32) 36%,
+        var(--mauve-light) 56%,
+        var(--lavender) 80%,
+        var(--lavender) 100%),
+      url('pricing.png');
+    background-size:cover, cover;
+    background-position:center top, center top;
+    background-repeat:no-repeat, no-repeat;
+    padding:60px 0 70px;
+  }
+  .pricing-head{
+    text-align:center;
+    position:relative; z-index:2;
+    padding-bottom:0;
+  }
+  .pricing-head h2{
+    font-family:var(--serif);
+    font-size:clamp(2.1rem, 4vw, 2.7rem);
+    color:#fff;
+    text-shadow:0 4px 24px rgba(20,10,40,0.4);
+    margin-bottom:10px;
+  }
+  .pricing-head .divider{background:linear-gradient(90deg, transparent, var(--gold-soft), transparent); margin-bottom:0;}
+  .pricing-head .divider span{background:transparent; color:var(--gold-soft);}
+
+  /* ---------- pricing cards ---------- */
+  .cards-grid{
+    position:relative; z-index:2;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+    align-items:center;
+    margin-top:30px;
+  }
+  .price-card{
+    border-radius:18px;
+    padding:34px 28px 28px;
+    text-align:center;
+    position:relative;
+    scale:1;
+    transition:transform .45s cubic-bezier(.2,.8,.2,1), scale .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+  }
+  .price-card.basic:hover, .price-card.premium:hover{transform:translateY(-14px); box-shadow:0 40px 70px -12px rgba(20,8,45,0.55), 0 14px 28px rgba(20,8,45,0.3);}
+  .price-card.standard{scale:1.06;}
+  .price-card.standard:hover{scale:1.085; transform:translateY(-12px);}
+
+  /* ornate double-frame border, shared */
+  .price-card::before{
+    content:'';
+    position:absolute; inset:9px;
+    border-radius:11px;
+    border:1px solid var(--frame-color, rgba(227,205,143,0.35));
+    pointer-events:none;
+  }
+  .price-card{border:1px solid var(--frame-color-outer, rgba(227,205,143,0.5));}
+
+  .price-card.basic{
+    background:linear-gradient(160deg, var(--card-dark-2), var(--card-dark));
+    color:var(--light);
+    box-shadow:var(--shadow-card);
+    --frame-color: rgba(227,205,143,0.3);
+    --frame-color-outer: rgba(227,205,143,0.42);
+  }
+  .price-card.premium{
+    background:linear-gradient(160deg, var(--card-premium-1), var(--card-premium-2));
+    color:var(--light);
+    box-shadow:var(--shadow-card);
+    --frame-color: rgba(227,205,143,0.32);
+    --frame-color-outer: rgba(227,205,143,0.46);
+  }
+  .price-card.standard{
+    background:linear-gradient(160deg, var(--card-cream), var(--cream));
+    box-shadow:0 35px 70px -12px rgba(74,48,112,0.4), 0 14px 30px rgba(74,48,112,0.2);
+    padding:40px 30px 32px;
+    color:var(--ink);
+    --frame-color: rgba(184,140,90,0.35);
+    --frame-color-outer: rgba(184,140,90,0.55);
+  }
+
+  /* corner sparkle ornaments */
+  .corner{position:absolute; width:15px; height:15px; color:var(--gold-soft);}
+  .price-card.standard .corner{color:var(--gold-warm);}
+  .corner::before{
+    content:'';
+    position:absolute; inset:0;
+    background:currentColor;
+    clip-path:polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+    animation:sparkle-glint 3.4s ease-in-out infinite;
+    transform-origin:center;
+  }
+  .corner.tl{top:4px; left:4px;}
+  .corner.tr{top:4px; right:4px;}
+  .corner.bl{bottom:4px; left:4px;}
+  .corner.br{bottom:4px; right:4px;}
+  .corner.tr::before{animation-delay:.85s;}
+  .corner.bl::before{animation-delay:1.7s;}
+  .corner.br::before{animation-delay:2.55s;}
+  @keyframes sparkle-glint{
+    0%,100%{opacity:.5; transform:scale(.8);}
+    50%{opacity:1; transform:scale(1.15);}
+  }
+
+  .plan-name{
+    font-family:var(--serif);
+    font-size:1.3rem;
+    margin-bottom:10px;
+    letter-spacing:0.5px;
+    position:relative; z-index:2;
+  }
+  .plan-price{
+    font-family:var(--serif);
+    font-size:2.5rem;
+    font-weight:600;
+    margin-bottom:6px;
+    position:relative; z-index:2;
+  }
+  .plan-price sup{font-size:1.3rem; margin-right:2px; font-weight:400;}
+  .price-card .divider{width:70px; margin:10px auto 16px; position:relative; z-index:2;}
+  .price-card.basic .divider, .price-card.premium .divider{
+    background:linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  }
+  .price-card.basic .divider span, .price-card.premium .divider span{
+    background:transparent; color:var(--gold-soft);
+  }
+  .price-card.standard .divider span{background:transparent; color:var(--gold-warm);}
+  .plan-features{
+    text-align:left;
+    margin-bottom:18px;
+    position:relative; z-index:2;
+  }
+  .plan-features li{
+    font-size:0.86rem;
+    padding:5px 0;
+    display:flex; align-items:flex-start; gap:10px;
+    opacity:0.95;
+  }
+  .consult-note{
+    font-size:0.72rem;
+    font-style:italic;
+    text-align:center;
+    opacity:0.75;
+    margin-bottom:14px;
+    position:relative; z-index:2;
+    letter-spacing:0.2px;
+  }
+  .plan-features li::before{
+    content:'✦';
+    color:var(--gold);
+    font-size:0.65rem;
+    margin-top:4px;
+    flex-shrink:0;
+  }
+  .price-card.standard .plan-features li::before{color:var(--gold-warm);}
+  .price-card .btn{width:100%; text-align:center; position:relative; z-index:2;}
+  .price-card.standard .btn{background:var(--mid-2); color:#fff;}
+  .price-card.basic .btn, .price-card.premium .btn{
+    background:transparent;
+    border:1.5px solid var(--gold-soft);
+    color:var(--gold-soft);
+    box-shadow:none;
+  }
+  .price-card.basic .btn:hover, .price-card.premium .btn:hover{background:rgba(227,205,143,0.14);}
+  .badge{
+    position:absolute; top:-15px; left:50%; transform:translateX(-50%);
+    background:linear-gradient(120deg, var(--gold-soft), var(--gold));
+    color:var(--deep);
+    font-size:0.68rem; letter-spacing:1.5px; text-transform:uppercase;
+    padding:7px 18px; border-radius:20px; font-weight:600;
+    box-shadow:0 8px 18px rgba(201,169,97,0.45);
+    z-index:3;
+    animation:badge-pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes badge-pulse{
+    0%,100%{box-shadow:0 8px 18px rgba(201,169,97,0.45);}
+    50%{box-shadow:0 8px 22px rgba(201,169,97,0.7);}
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{
+    background:url(testimonials.png);
+    padding:15px 0 15px;
+    text-align:center;
+    color:var(--light);
+  }
+  .testimonials h2{
+    font-family:var(--serif);
+    font-size:clamp(1.9rem, 3.6vw, 2.5rem);
+    position:relative; z-index:2;
+  }
+  .testimonials .divider{
+    background:linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+    position:relative; z-index:2;
+    margin-top:14px;
+  }
+  .testimonials .divider span{background:transparent; color:var(--gold-soft);}
+
+  .testi-carousel{
+    display:flex; align-items:center; gap:14px;
+    max-width:1080px; margin:44px auto 0;
+    position:relative; z-index:2;
+  }
+  .testi-arrow{
+    flex:0 0 auto;
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(244,238,252,0.06);
+    border:1px solid rgba(227,205,143,0.4);
+    color:var(--gold-soft);
+    font-size:0.95rem;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .25s, transform .25s;
+  }
+  .testi-arrow:hover{background:rgba(227,205,143,0.16); transform:translateY(-2px);}
+  .testi-arrow:disabled{opacity:0.35; cursor:default; transform:none;}
+
+  .testi-viewport{overflow:hidden; flex:1;}
+  .testi-track{
+    display:flex;
+    gap:26px;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .testi-card{
+    flex:0 0 calc((100% - 52px)/3);
+    background:linear-gradient(160deg, var(--card-dark-2), var(--card-dark));
+    border:1px solid rgba(227,205,143,0.32);
+    border-radius:16px;
+    padding:38px 24px 28px;
+    position:relative;
+    text-align:center;
+  }
+  .testi-quote{
+    position:absolute; top:-22px; left:50%; transform:translateX(-50%);
+    width:44px; height:44px; border-radius:50%;
+    background:linear-gradient(135deg, var(--mid-2), var(--card-premium-1));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-size:1.3rem; font-weight:700;
+    color:var(--gold-soft);
+    box-shadow:0 8px 18px rgba(20,8,45,0.4);
+  }
+  .testi-stars{
+    color:var(--gold);
+    font-size:0.85rem;
+    letter-spacing:3px;
+    margin:14px 0 16px;
+  }
+  .testi-card p.testi-text{
+    font-size:0.9rem;
+    line-height:1.85;
+    color:#d9cdec;
+    margin-bottom:18px;
+    min-height:96px;
+  }
+  .testi-name{
+    font-family:var(--serif);
+    font-style:italic;
+    color:var(--gold-soft);
+    font-size:0.92rem;
+  }
+
+  .testi-dots{
+    display:flex; justify-content:center; gap:9px;
+    margin-top:32px; position:relative; z-index:2;
+  }
+  .testi-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(244,238,252,0.3);
+    border:none; padding:0; cursor:pointer;
+    transition:background .25s, transform .25s;
+  }
+  .testi-dot.active{background:var(--gold-soft); transform:scale(1.3);}
+
+  .testi-more{
+    text-align:center;
+    margin-top:28px;
+    position:relative; z-index:2;
+  }
+  .testi-more p{
+    font-size:0.85rem;
+    color:#d9cdec;
+  }
+  .testi-more a{
+    color:var(--gold-soft);
+    font-weight:500;
+    border-bottom:1px solid rgba(227,205,143,0.5);
+    padding-bottom:2px;
+    transition:color .25s, border-color .25s;
+  }
+  .testi-more a:hover{color:var(--gold); border-color:var(--gold);}
+
+  /* ---------- FAQ + expect ---------- */
+  .faq-section{
+    background:var(--lavender);
+    padding:90px 0 100px;
+    position:relative;
+  }
+  .faq-section::before{
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(107,76,147,0.2), transparent);
+  }
+  .faq-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    position:relative;
+  }
+  .faq-grid::before{
+    content:'';
+    position:absolute;
+    left:50%; top:6px; bottom:6px;
+    width:1px;
+    background:linear-gradient(180deg, transparent, rgba(107,76,147,0.3), transparent);
+  }
+  .faq-eyebrow{
+    font-family:var(--serif); font-style:italic;
+    color:var(--mid-2); margin-bottom:6px; font-size:1rem;
+  }
+  .faq-grid h2{
+    font-family:var(--serif);
+    font-size:2rem;
+    margin-bottom:32px;
+    color:var(--ink);
+  }
+  .faq-item{
+    border-bottom:1px solid rgba(107,76,147,0.25);
+    padding:18px 0;
+    transition:border-color .3s;
+  }
+  .faq-item.open{border-color:rgba(201,169,97,0.5);}
+  .faq-question{
+    display:flex; justify-content:space-between; align-items:center;
+    cursor:pointer;
+    font-size:0.86rem;
+    font-weight:600;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    transition:color .25s;
+  }
+  .faq-question:hover{color:var(--mid-2);}
+  .faq-question .icon{
+    font-size:1.2rem;
+    color:var(--mid-2);
+    transition:transform .35s ease;
+    flex-shrink:0;
+    margin-left:16px;
+  }
+  .faq-item.open .icon{transform:rotate(135deg); color:var(--gold);}
+  .faq-answer{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .4s ease;
+  }
+  .faq-answer-inner{
+    overflow:hidden;
+    font-size:0.87rem;
+    line-height:1.8;
+    color:var(--ink-soft);
+  }
+  .faq-item.open .faq-answer{grid-template-rows:1fr;}
+  .faq-item.open .faq-answer-inner{padding-top:14px;}
+  .expect-block h3{
+    font-family:var(--serif); font-size:1.5rem; margin-bottom:20px; color:var(--ink);
+  }
+  .expect-block p{
+    font-size:0.9rem; line-height:1.9; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .expect-block p:first-of-type{font-style:italic; color:var(--mid-2);}
+
+  /* ---------- CTA band & Embedded Footer Details ---------- */
+  .cta-band{
+    background:
+      radial-gradient(ellipse at center, rgba(26,16,48,0.25) 0%, rgba(26,16,48,0.95) 100%),
+      url('contact.png') center center/cover no-repeat;
+    padding:15px 0 0px; /* Reduced bottom padding slightly to accommodate socials */
+    text-align:center;
+    color:var(--light);
+  }
+  .cta-band h2{
+    font-family:var(--serif);
+    font-size:clamp(1.9rem, 3.6vw, 2.5rem);
+    margin-bottom:18px;
+  }
+  .cta-band p{
+    max-width:480px; margin:0 auto 32px;
+    color:#d9cdec; font-size:0.92rem; line-height:1.85;
+  }
+  
+  /* ---------- Booking Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:1000;
+    background:rgba(15,8,28,0.72);
+    backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0; visibility:hidden;
+    transition:opacity .3s ease, visibility .3s ease;
+  }
+  .modal-overlay.open{opacity:1; visibility:visible;}
+  .modal-box{
+    width:100%; max-width:420px;
+    background:linear-gradient(160deg, var(--card-dark-2), var(--card-dark));
+    border:1px solid rgba(227,205,143,0.35);
+    border-radius:16px;
+    padding:38px 30px 30px;
+    position:relative;
+    color:var(--light);
+    box-shadow:var(--shadow-card);
+    transform:translateY(24px) scale(0.98);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1);
+    max-height:90vh; overflow-y:auto;
+  }
+  .modal-overlay.open .modal-box{transform:translateY(0) scale(1);}
+  .modal-close{
+    position:absolute; top:14px; right:14px;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(244,238,252,0.06);
+    border:1px solid rgba(227,205,143,0.3);
+    color:var(--gold-soft);
+    font-size:1.3rem; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s;
+  }
+  .modal-close:hover{background:rgba(227,205,143,0.16);}
+  .modal-box h3{
+    font-family:var(--serif); font-size:1.4rem; margin:2px 0 8px;
+  }
+  .modal-sub{
+    font-size:0.84rem; color:#d9cdec; line-height:1.7; margin-bottom:22px;
+  }
+  .modal-box form input, .modal-box form textarea {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(26,16,48,0.6);
+    color: #fff;
+    font-family: var(--body);
+    font-size:0.88rem;
+  }
+  .modal-box form input:focus, .modal-box form textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .modal-box form textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  /* Social Icons and Copyright moved here */
+  .social-icons{
+    display:flex; gap:16px; justify-content:center; margin-top:24px;
+  }
+  .social-icons a{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid rgba(227,205,143,0.4);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.85rem;
+    color: var(--light);
+    transition:background .25s, transform .25s, border-color .25s;
+  }
+  .social-icons a:hover{background:rgba(201,169,97,0.2); transform:translateY(-4px) rotate(-6deg); border-color:var(--gold);}
+  .copyright{
+    text-align:center; padding-top:20px;
+    font-size:0.78rem; color:#a698c2;
+  }
+
+  /* ---------- scroll reveal ---------- */
+  .reveal{
+    opacity:0; translate:0 36px;
+    transition:opacity .8s ease, translate .8s ease;
+  }
+  .reveal.visible{opacity:1; translate:0 0;}
+  .price-card.reveal:nth-child(2){transition-delay:.12s;}
+  .price-card.reveal:nth-child(3){transition-delay:.24s;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1024px){
+    .container{padding:0 26px;}
+    .cards-grid{gap:22px;}
+    .price-card{padding:32px 20px 26px;}
+    .price-card.standard{padding:38px 24px 30px;}
+    .who-grid{gap:36px;}
+    .testi-card{flex:0 0 calc((100% - 26px)/2);}
+  }
+
+  @media (max-width: 900px){
+    .cards-grid{
+      grid-template-columns:1fr;
+      max-width:440px;
+      margin:44px auto 0;
+      gap:34px;
+    }
+    .price-card.standard{order:-1; scale:1;}
+    .price-card.basic:hover, .price-card.premium:hover, .price-card.standard:hover{transform:none; scale:1;}
+    .faq-grid{grid-template-columns:1fr; gap:8px;}
+    .faq-grid::before{display:none;}
+    .expect-block{margin-top:36px; padding-top:36px; border-top:1px solid rgba(107,76,147,0.25);}
+  }
+
+  /* Who We Are: keep the exact desktop/tablet composition below 900px, just scaled
+     down as a whole (image + text + feature row together) via JS-driven transform. */
+  @media (max-width: 900px){
+    .who-we-are{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      background:var(--lavender);
+    }
+    .who-scale{
+      width:900px;
+      flex:0 0 900px;
+    }
+  }
+
+  @media (max-width: 860px){
+    .nav-links{
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:rgba(26,16,48,0.98);
+      flex-direction:column; align-items:center; justify-content:center;
+      gap:6px;
+      transform:translateY(-100%);
+      opacity:0;
+      visibility:hidden;
+      transition:transform .4s ease, opacity .3s ease, visibility .4s;
+    }
+    .nav-links.open{transform:translateY(0); opacity:1; visibility:visible;}
+    .nav-links a{padding:18px 0; width:100%; text-align:center; font-size:1rem;}
+    .nav-links li{width:100%; display:flex; justify-content:center;}
+    .nav-links .nav-book-btn{margin-top:14px; padding:15px 42px; font-size:0.88rem;}
+    .burger{display:flex;}
+    .hero{
+      padding:128px 0 72px;
+      background-image:
+        linear-gradient(180deg, rgba(15,8,28,0.32) 0%, rgba(15,8,28,0.5) 45%, rgba(15,8,28,0.88) 100%),
+        radial-gradient(ellipse at center 30%, rgba(52,33,92,0) 0%, rgba(26,16,48,0.35) 100%),
+        url('hero.png');
+      background-size:cover, cover, cover;
+      background-position:center, center 30%, center 22%;
+      background-repeat:no-repeat, no-repeat, no-repeat;
+      background-color:var(--deep-2);
+    }
+    .container{padding:0 20px;}
+    nav.navbar{padding:16px 20px;}
+    .pricing{
+      padding:60px 0 90px;
+      background-size:cover, cover;
+      background-position:center top, center top;
+    }
+    .faq-section{padding:70px 0 80px;}
+    .cta-band{
+      padding:76px 0;
+      background-size:cover, cover;
+      background-position:center, center top;
+      background-color:var(--deep);
+    }
+    .orb-wrap{margin:0 auto;}
+    .testimonials{padding:64px 0 70px;}
+    .testi-card{flex:0 0 100%; padding:34px 22px 24px;}
+    .testi-carousel{margin-top:36px;}
+  }
+
+  @media (max-width: 460px){
+    .plan-price{font-size:2.15rem;}
+    .btn{padding:12px 24px; font-size:0.75rem;}
+    .price-card{padding:32px 20px 26px;}
+    .price-card.standard{padding:40px 22px 30px;}
+    .divider{width:90px;}
+  }
+
+  :focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <div class="brand"><span class="glyph">✦</span> AMORETAROT</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+      <li><button type="button" class="nav-book-btn" data-open-modal data-plan="">Book Now</button></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- ===================== HERO / ABOUT ===================== -->
+<section class="hero" id="home">
+  <div class="starfield" id="starfieldHero"></div>
+  <div class="container hero-inner">
+    <div class="hero-center reveal">
+      <p class="eyebrow"></p>
+      <h1>Guidance. Clarity. Confidence.</h1>
+      <div class="divider"><span>✦</span></div>
+      <p>We blend ancient wisdom with modern insights to help you navigate life's challenges and unlock new opportunities. Our mission is to empower you with clarity and direction.</p>
+      <a href="#pricing" class="btn">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHO WE ARE ===================== -->
+<section class="who-we-are" id="who-we-are">
+  <div class="who-scale" id="whoScale">
+    <div class="container who-grid">
+      <div class="who-visual reveal">
+      </div>
+
+      <div class="who-content reveal">
+        <p class="eyebrow-dark">About Us</p>
+        <h2>Who We Are</h2>
+        <p>We are a team of passionate tarot readers and spiritual advisors dedicated to helping you find clarity, balance, and purpose in life. With years of experience and a deep connection to intuitive practices, we offer personalized readings that inspire confidence and guide you towards a brighter future.</p>
+      </div>
+
+      <div class="who-features reveal" style="grid-column:1/-1;">
+        <div class="who-feature">
+          <svg viewBox="0 0 32 32"><path d="M16 26c-6-2-9-7-9-12 4 1 7 4 9 8 2-4 5-7 9-8 0 5-3 10-9 12Z"/><path d="M16 20c-3-4-3-9 0-14 3 5 3 10 0 14Z"/></svg>
+          <h4>Trusted Guidance</h4>
+          <p>Accurate readings you can rely on.</p>
+        </div>
+        <div class="who-feature">
+          <svg viewBox="0 0 32 32"><rect x="8" y="15" width="16" height="12" rx="2"/><path d="M11 15v-4a5 5 0 0 1 10 0v4"/><circle cx="16" cy="21" r="1.4" fill="var(--mid-2)" stroke="none"/></svg>
+          <h4>100% Confidential</h4>
+          <p>Your privacy and trust are our priority.</p>
+        </div>
+        <div class="who-feature">
+          <svg viewBox="0 0 32 32"><path d="M7 12l4-6h10l4 6-9 14-9-14Z"/><path d="M7 12h18M13 6l3 6 3-6M11 12l5 14 5-14"/></svg>
+          <h4>Personalized Readings</h4>
+          <p>Insights tailored to your unique journey.</p>
+        </div>
+        <div class="who-feature">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="6"/><path d="M16 3v4M16 25v4M3 16h4M25 16h4M6.5 6.5l2.8 2.8M22.7 22.7l2.8 2.8M6.5 25.5l2.8-2.8M22.7 9.3l2.8-2.8"/></svg>
+          <h4>Positive Empowerment</h4>
+          <p>We empower you to make informed decisions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="pricing" id="pricing">
+  <div class="starfield" id="starfieldPricing"></div>
+
+  <div class="container pricing-head reveal">
+    <h2>Pricing</h2>
+    <div class="divider"><span>✦</span></div>
+  </div>
+
+  <div class="container cards-grid">
+    <div class="price-card basic reveal">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <p class="plan-name">Tarot Reading</p>
+      <p class="plan-price"><sup>₹</sup>499</p>
+      <div class="divider"><span>✦</span></div>
+      <ul class="plan-features">
+        <li>One-card daily guidance</li>
+        <li>30-minute live reading</li>
+        <li>Chat or video consultation</li>
+        <li>Personalised card interpretation</li>
+        <li>Follow-up notes included</li>
+      </ul>
+      <p class="consult-note">✦ Consultation required before finalizing</p>
+      <button type="button" class="btn" data-open-modal data-plan="Tarot Reading">Book Now</button>
+    </div>
+
+    <div class="price-card standard reveal">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <span class="badge">Most Popular</span>
+      <p class="plan-name">Spells</p>
+      <p class="plan-price"><sup>₹</sup>899</p>
+      <div class="divider"><span>✦</span></div>
+      <ul class="plan-features">
+        <li>Personalised spell consultation</li>
+        <li>Intention &amp; ritual planning</li>
+        <li>Ingredient &amp; materials guidance</li>
+        <li>45-minute live session</li>
+        <li>7-day follow-up support</li>
+      </ul>
+      <p class="consult-note">✦ Consultation required before finalizing</p>
+      <button type="button" class="btn" data-open-modal data-plan="Spells">Book Now</button>
+    </div>
+
+    <div class="price-card premium reveal">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <p class="plan-name">Candle &amp; Bay Leaf Ritual</p>
+      <p class="plan-price"><sup>₹</sup>1299</p>
+      <div class="divider"><span>✦</span></div>
+      <ul class="plan-features">
+        <li>Customised candle ritual plan</li>
+        <li>Bay leaf manifestation ritual</li>
+        <li>Step-by-step guided session</li>
+        <li>Priority booking access</li>
+        <li>Unlimited follow-up questions</li>
+      </ul>
+      <p class="consult-note">✦ Consultation required before finalizing</p>
+      <button type="button" class="btn" data-open-modal data-plan="Candle & Bay Leaf Ritual">Book Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="testimonials" id="testimonials">
+  <div class="starfield" id="starfieldTestimonials"></div>
+  <div class="container">
+    <h2 class="reveal">What Our Clients Say</h2>
+    <div class="divider reveal"><span>✦</span></div>
+
+    <div class="testi-carousel reveal">
+      <button type="button" class="testi-arrow" id="testiPrev" aria-label="Previous testimonials">&#10094;</button>
+
+      <div class="testi-viewport">
+        <div class="testi-track" id="testiTrack">
+          <div class="testi-card">
+            <span class="testi-quote">&#10077;</span>
+            <p class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p class="testi-text">The reading was so accurate and insightful. It gave me the clarity I needed during a difficult time.</p>
+            <p class="testi-name">— Ananya S.</p>
+          </div>
+          <div class="testi-card">
+            <span class="testi-quote">&#10077;</span>
+            <p class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p class="testi-text">A truly transformative experience! The guidance I received has positively changed my life.</p>
+            <p class="testi-name">— Rahul K.</p>
+          </div>
+          <div class="testi-card">
+            <span class="testi-quote">&#10077;</span>
+            <p class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p class="testi-text">Professional, kind, and intuitive. I highly recommend their readings to everyone.</p>
+            <p class="testi-name">— Priya M.</p>
+          </div>
+          <div class="testi-card">
+            <span class="testi-quote">&#10077;</span>
+            <p class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p class="testi-text">The candle ritual session was calming and empowering — exactly the guidance I needed.</p>
+            <p class="testi-name">— Karan D.</p>
+          </div>
+          <div class="testi-card">
+            <span class="testi-quote">&#10077;</span>
+            <p class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <p class="testi-text">Booked a tarot reading and left with so much clarity about my career path.</p>
+            <p class="testi-name">— Meera S.</p>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="testi-arrow" id="testiNext" aria-label="Next testimonials">&#10095;</button>
+    </div>
+
+    <div class="testi-dots" id="testiDots"></div>
+
+    <div class="testi-more reveal" id="reviews">
+      <p>Loved your reading? <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">See more reviews on Instagram ↗</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ + WHAT TO EXPECT ===================== -->
+<section class="faq-section">
+  <div class="container faq-grid">
+    <div class="reveal">
+      <p class="faq-eyebrow">FAQ</p>
+      <h2>Frequently Asked</h2>
+
+      <div class="faq-item open">
+        <div class="faq-question">Do I need prior tarot experience?<span class="icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Not at all. Every session begins with a short conversation about what's on your mind, and your reader guides you through each card as it's drawn — no background knowledge required.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">How are sessions conducted?<span class="icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Sessions take place over live video or voice call, with an option for chat-based readings if you prefer to keep things text-only. You'll receive a booking link after checkout.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can I reschedule my appointment?<span class="icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes, appointments can be moved up to 24 hours before the scheduled time at no extra cost. Just reach out through the contact details in the footer.</div></div>
+      </div>
+    </div>
+
+    <div class="expect-block reveal">
+      <h3>What to Expect</h3>
+      <p>Every reading is a conversation, not a performance — grounded, honest, and centred on what matters to you right now.</p>
+      <p>We start by understanding your question or intention, then move through the cards or chart together, unpacking what each placement means for your situation. You'll leave with practical takeaways, not just symbolism.</p>
+      <p>Sessions are recorded on request, so you can revisit the guidance whenever you need a reminder of the path ahead.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA BAND & FOOTER ===================== -->
+<section class="cta-band" id="contact">
+  <div class="container reveal" style="position:relative; z-index:2;">
+    <p class="eyebrow">Get Started</p>
+    <h2>Book an appointment</h2>
+    <p>Take the first step toward clarity. Choose a service, pick a time that works for you, and let's explore what the cards have to say.</p>
+
+    <button type="button" class="btn" data-open-modal data-plan="">Get Started</button>
+
+    <!-- Socials and Copyright migrated here -->
+    <div class="social-icons">
+      <a href="#" aria-label="Instagram">◎</a>
+      <a href="#" aria-label="Twitter">𝕏</a>
+      <a href="#" aria-label="Facebook">f</a>
+      <a href="#" aria-label="YouTube">▶</a>
+    </div>
+    <p class="copyright">© 2026 Divin Astrologist. All rights reserved.</p>
+  </div>
+</section>
+
+<!-- ===================== BOOKING MODAL ===================== -->
+<div class="modal-overlay" id="bookingModalOverlay" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button type="button" class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+    <p class="eyebrow-dark" style="justify-content:flex-start;">Get Started</p>
+    <h3 id="modalTitle">Book an Appointment</h3>
+    <p class="modal-sub">Share a few details and we'll confirm your consultation over WhatsApp.</p>
+    <form id="whatsappForm">
+      <input type="text" id="waName" placeholder="Your Name" required />
+      <input type="text" id="waPlan" placeholder="Preferred Service (Tarot Reading / Spells / Candle Ritual)" required />
+      <textarea id="waDetails" placeholder="Tell us briefly about your situation or question..." required></textarea>
+      <button type="submit" class="btn" style="width: 100%;">Send to WhatsApp</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Mobile menu toggle
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  if(burger && navLinks){
+    burger.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      burger.setAttribute('aria-expanded', isOpen);
+      burger.classList.toggle('active', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    navLinks.querySelectorAll('a, .nav-book-btn').forEach(link=>{
+      link.addEventListener('click', ()=>{
+        navLinks.classList.remove('open');
+        burger.classList.remove('active');
+        burger.setAttribute('aria-expanded', false);
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec=>{
+      const top = sec.offsetTop - 120;
+      if(scrollY >= top) current = sec.getAttribute('id');
+    });
+    navAnchors.forEach(a=>{
+      a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    item.querySelector('.faq-question').addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+      if(!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ===================== Booking modal (opens on Get Started / Book Now) =====================
+  const modalOverlay = document.getElementById('bookingModalOverlay');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const waForm = document.getElementById('whatsappForm');
+  const waPlanInput = document.getElementById('waPlan');
+  let lastFocusedEl = null;
+
+  function openModal(plan){
+    if(!modalOverlay) return;
+    lastFocusedEl = document.activeElement;
+    if(waPlanInput) waPlanInput.value = plan || '';
+    modalOverlay.classList.add('open');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    const firstField = document.getElementById('waName');
+    if(firstField) setTimeout(() => firstField.focus(), 300);
+  }
+
+  function closeModal(){
+    if(!modalOverlay) return;
+    modalOverlay.classList.remove('open');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if(lastFocusedEl && typeof lastFocusedEl.focus === 'function') lastFocusedEl.focus();
+  }
+
+  document.querySelectorAll('[data-open-modal]').forEach(btn=>{
+    btn.addEventListener('click', () => openModal(btn.getAttribute('data-plan') || ''));
+  });
+
+  if(modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+  if(modalOverlay){
+    modalOverlay.addEventListener('click', (e) => {
+      if(e.target === modalOverlay) closeModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('open')) closeModal();
+  });
+
+  if(waForm) {
+    waForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('waName').value.trim();
+      const plan = document.getElementById('waPlan').value.trim();
+      const details = document.getElementById('waDetails').value.trim();
+
+      const message = `Hello AmoreTarot! %0AMy name is ${name}. %0AI am interested in the ${plan}. %0ADetails: ${details}`;
+      // Note: Replace '1234567890' with the actual WhatsApp number (country code + number, digits only).
+      window.open(`https://wa.me/1234567890?text=${message}`, '_blank');
+      waForm.reset();
+      closeModal();
+    });
+  }
+
+  // ===================== Testimonials carousel (all screen sizes) =====================
+  (function(){
+    const track = document.getElementById('testiTrack');
+    const viewport = track ? track.parentElement : null;
+    if(!track || !viewport) return;
+    const cards = Array.from(track.children);
+    const prevBtn = document.getElementById('testiPrev');
+    const nextBtn = document.getElementById('testiNext');
+    const dotsWrap = document.getElementById('testiDots');
+    let pages = [];
+    let currentPage = 0;
+    let autoplayTimer = null;
+
+    function getVisibleCount(){
+      const w = window.innerWidth;
+      if(w <= 860) return 1;
+      if(w <= 1024) return 2;
+      return 3;
+    }
+
+    function buildPages(){
+      const visible = getVisibleCount();
+      pages = [];
+      for(let i = 0; i < cards.length; i += visible) pages.push(i);
+    }
+
+    function cardStep(){
+      const gapValue = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      return cardWidth + gapValue;
+    }
+
+    function offsetForPage(pageIndex){
+      const startIndex = pages[pageIndex] || 0;
+      const offset = startIndex * cardStep();
+      const maxOffset = Math.max(track.scrollWidth - viewport.clientWidth, 0);
+      return Math.min(offset, maxOffset);
+    }
+
+    function renderDots(){
+      if(!dotsWrap) return;
+      dotsWrap.innerHTML = '';
+      pages.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'testi-dot' + (i === currentPage ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to testimonial page ' + (i + 1));
+        dot.addEventListener('click', () => { stopAutoplay(); goTo(i); startAutoplay(); });
+        dotsWrap.appendChild(dot);
+      });
+    }
+
+    function update(){
+      track.style.transform = `translateX(-${offsetForPage(currentPage)}px)`;
+      if(dotsWrap){
+        Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('active', i === currentPage));
+      }
+    }
+
+    function goTo(index){
+      if(pages.length === 0) return;
+      currentPage = (index + pages.length) % pages.length;
+      update();
+    }
+
+    function startAutoplay(){
+      stopAutoplay();
+      if(pages.length <= 1) return;
+      autoplayTimer = setInterval(() => goTo(currentPage + 1), 6000);
+    }
+    function stopAutoplay(){
+      if(autoplayTimer) clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+
+    if(prevBtn) prevBtn.addEventListener('click', () => { stopAutoplay(); goTo(currentPage - 1); startAutoplay(); });
+    if(nextBtn) nextBtn.addEventListener('click', () => { stopAutoplay(); goTo(currentPage + 1); startAutoplay(); });
+
+    viewport.addEventListener('mouseenter', stopAutoplay);
+    viewport.addEventListener('mouseleave', startAutoplay);
+
+    let touchStartX = 0, touchActive = false;
+    viewport.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchActive = true;
+      stopAutoplay();
+    }, {passive:true});
+    viewport.addEventListener('touchend', (e) => {
+      if(!touchActive) return;
+      touchActive = false;
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if(Math.abs(diff) > 40){
+        diff < 0 ? goTo(currentPage + 1) : goTo(currentPage - 1);
+      }
+      startAutoplay();
+    }, {passive:true});
+
+    let testiResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(testiResizeTimer);
+      testiResizeTimer = setTimeout(() => {
+        buildPages();
+        currentPage = Math.min(currentPage, pages.length - 1);
+        renderDots();
+        update();
+      }, 150);
+    });
+
+    buildPages();
+    renderDots();
+    update();
+    startAutoplay();
+  })();
+
+  // ===================== Who We Are: scale the whole section as one unit below 900px =====================
+  // Keeps the exact same two-column composition (image + text + feature row) used on
+  // desktop/tablet instead of reflowing it — it's just rendered smaller as a unit.
+  (function(){
+    const whoSection = document.getElementById('who-we-are');
+    const whoScale = document.getElementById('whoScale');
+    if(!whoSection || !whoScale) return;
+    const REFERENCE_WIDTH = 900;
+
+    function applyScale(){
+      if(window.innerWidth <= REFERENCE_WIDTH){
+        const naturalHeight = whoScale.offsetHeight;
+        const factor = window.innerWidth / REFERENCE_WIDTH;
+        whoScale.style.transform = `scale(${factor})`;
+        whoSection.style.height = (naturalHeight * factor) + 'px';
+      } else {
+        whoScale.style.transform = '';
+        whoSection.style.height = '';
+      }
+    }
+
+    let whoResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(whoResizeTimer);
+      whoResizeTimer = setTimeout(applyScale, 120);
+    });
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(applyScale);
+    }
+    applyScale();
+  })();
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // Generate starfield
+  function makeStars(container, count){
+    if(!container) return;
+    for(let i=0;i<count;i++){
+      const star = document.createElement('div');
+      star.className='star';
+      star.style.top = Math.random()*100+'%';
+      star.style.left = Math.random()*100+'%';
+      star.style.animationDelay = (Math.random()*4)+'s';
+      star.style.animationDuration = (3+Math.random()*3)+'s';
+      const size = (Math.random()*2+1.5);
+      star.style.width = size+'px';
+      star.style.height = size+'px';
+      container.appendChild(star);
+    }
+  }
+  makeStars(document.getElementById('starfieldHero'), 50);
+  makeStars(document.getElementById('starfieldPricing'), 30);
+</script>
+
+</body>
+</html>
